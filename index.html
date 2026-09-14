@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     <header>
 
         <div class="div-logo">
@@ -60,6 +59,7 @@
 
     <script>
 
+
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 function salvarTarefas() {
@@ -70,15 +70,27 @@ function criarTarefa() {
 
     let texto = prompt("Digite o nome da tarefa:");
 
+if (texto === null || texto.trim() === "") {
+    return;
+}
+
+let prioridade = prompt(
+    "Digite a prioridade:\nAlta\nMédia\nBaixa"
+);
+
+if (prioridade === null || prioridade.trim() === "") {
+    prioridade = "Baixa";
+}
+
     if (texto === null || texto.trim() === "") {
         return;
     }
 
-    tarefas.push({
-        nome: texto,
-        status: "pendente"
-    });
-
+   tarefas.push({
+    nome: texto,
+    prioridade: prioridade,
+    status: "pendente"
+});
     salvarTarefas();
     carregarTarefas();
 }
@@ -122,12 +134,25 @@ function carregarTarefas() {
         let card = document.createElement("div");
 
         card.className = "card";
+        if(tarefa.prioridade.toLowerCase() === "alta"){
+    card.classList.add("prioridade-alta");
+}
+else if(tarefa.prioridade.toLowerCase() === "média" ||
+        tarefa.prioridade.toLowerCase() === "media"){
+    card.classList.add("prioridade-media");
+}
+else{
+    card.classList.add("prioridade-baixa");
+}
         card.draggable = true;
         card.dataset.indice = indice;
 
        card.innerHTML = `
-    <span>${tarefa.nome}</span>
-
+    <div>
+    <strong>${tarefa.nome}</strong>
+    <br>
+    <small>${tarefa.prioridade}</small>
+</div>
     <div class="acoes-card">
 
         <button
@@ -218,3 +243,5 @@ carregarTarefas();
 </body>
 
 </html>
+
+

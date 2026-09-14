@@ -138,3 +138,16 @@ header{
 .btn-excluir:hover{
     transform:scale(1.2);
 }
+
+.prioridade-alta{
+    border-left: 8px solid red;
+}
+
+.prioridade-media{
+    border-left: 8px solid orange;
+}
+
+.prioridade-baixa{
+    border-left: 8px solid green;
+}
+
