@@ -15,30 +15,205 @@
 
         <div class="div-logo">
            <img class="logotipo" src="img/logo.png" alt="Logo"> 
+
         </div>
 
-        <div class="div-menu">
-            <h1>Gerenciamento de Tarefas</h1>
+         <div class="div-menu">
+            <h1>Gerenciamento de Tarefas - Kanban</h1>
+
         </div>
 
     </header>
 
+
     <main class="kanban">
 
         <section class="pendentes">
+
             <h2>Pendente</h2>
-            <h3>Adicionar tarefa</h3>
+
+            <button class="nova-tarefa" onclick="criarTarefa()">
+                + Adicionar Tarefa
+            </button>
+
+            <div id="lista-pendentes"></div>
+
         </section>
 
         <section class="andamento">
+
             <h2>Em Andamento</h2>
+
+            <div id="lista-andamento"></div>
+
         </section>
 
         <section class="concluido">
+
             <h2>Concluído</h2>
+
+            <div id="lista-concluido"></div>
+
         </section>
 
     </main>
+
+    <script>
+
+let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+
+function salvarTarefas() {
+    localStorage.setItem("tarefas", JSON.stringify(tarefas));
+}
+
+function criarTarefa() {
+
+    let texto = prompt("Digite o nome da tarefa:");
+
+    if (texto === null || texto.trim() === "") {
+        return;
+    }
+
+    tarefas.push({
+        nome: texto,
+        status: "pendente"
+    });
+
+    salvarTarefas();
+    carregarTarefas();
+}
+
+function excluirTarefa(indice) {
+
+    if(confirm("Deseja excluir esta tarefa?")){
+
+        tarefas.splice(indice, 1);
+
+        salvarTarefas();
+        carregarTarefas();
+    }
+}
+
+function editarTarefa(indice){
+
+    let novoTexto = prompt(
+        "Editar tarefa:",
+        tarefas[indice].nome
+    );
+
+    if(novoTexto === null || novoTexto.trim() === ""){
+        return;
+    }
+
+    tarefas[indice].nome = novoTexto;
+
+    salvarTarefas();
+    carregarTarefas();
+}
+
+function carregarTarefas() {
+
+    document.getElementById("lista-pendentes").innerHTML = "";
+    document.getElementById("lista-andamento").innerHTML = "";
+    document.getElementById("lista-concluido").innerHTML = "";
+
+    tarefas.forEach((tarefa, indice) => {
+
+        let card = document.createElement("div");
+
+        card.className = "card";
+        card.draggable = true;
+        card.dataset.indice = indice;
+
+       card.innerHTML = `
+    <span>${tarefa.nome}</span>
+
+    <div class="acoes-card">
+
+        <button
+            class="btn-editar"
+            onclick="editarTarefa(${indice})">
+            ✎
+        </button>
+
+        <button
+            class="btn-excluir"
+            onclick="excluirTarefa(${indice})">
+            🗑
+        </button>
+
+    </div>
+`;
+        adicionarEventos(card);
+
+        if (tarefa.status === "pendente") {
+            document.getElementById("lista-pendentes").appendChild(card);
+        }
+
+        else if (tarefa.status === "andamento") {
+            document.getElementById("lista-andamento").appendChild(card);
+        }
+
+        else {
+            document.getElementById("lista-concluido").appendChild(card);
+        }
+
+    });
+
+}
+
+function adicionarEventos(card) {
+
+    card.addEventListener("dragstart", () => {
+        card.classList.add("arrastando");
+    });
+
+    card.addEventListener("dragend", () => {
+        card.classList.remove("arrastando");
+    });
+
+}
+
+const colunas = document.querySelectorAll(
+    "#lista-pendentes, #lista-andamento, #lista-concluido"
+);
+
+colunas.forEach(coluna => {
+
+    coluna.addEventListener("dragover", e => {
+
+        e.preventDefault();
+
+        const card = document.querySelector(".arrastando");
+
+        if (card) {
+
+            coluna.appendChild(card);
+
+            let indice = card.dataset.indice;
+
+            if (coluna.id === "lista-pendentes") {
+                tarefas[indice].status = "pendente";
+            }
+
+            else if (coluna.id === "lista-andamento") {
+                tarefas[indice].status = "andamento";
+            }
+
+            else if (coluna.id === "lista-concluido") {
+                tarefas[indice].status = "concluido";
+            }
+
+            salvarTarefas();
+        }
+
+    });
+
+});
+
+carregarTarefas();
+
+</script>
 
 </body>
 

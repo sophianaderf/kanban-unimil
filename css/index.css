@@ -9,6 +9,8 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* CABEÇALHO */
+
 header{
     height: 120px;
     background-color: #1B72A8;
@@ -59,22 +61,80 @@ header{
 .concluido h2{
     text-align: center;
     color: #1B72A8;
+    margin-bottom: 20px;
 }
 
+/* BOTÃO NOVA TAREFA */
 
-.pendentes h3,
-.andamento h3,
-.concluido h3 {
-    width: 110px;
-    height: 110px;
-    margin-top: 20%;
-    font-size: small;
+.nova-tarefa{
+    width: 80px;
+    height: 80px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
     background-color: rgb(228, 209, 127);
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.nova-tarefa:hover{
+    transform: scale(1.05);
+}
+
+/* CARTÕES */
+
+.card{
+    background-color: rgb(228, 209, 127);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    cursor: grab;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
+}
 
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+.arrastando{
+    opacity: 0.5;
+}
+
+/* ÁREAS DOS CARDS */
+
+#lista-pendentes,
+#lista-andamento,
+#lista-concluido{
+    min-height: 350px;
+    margin-top: 20px;
+}
+
+.btn-excluir{
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-excluir:hover{
+    transform: scale(1.2);
+}
+
+.acoes-card{
+    display:flex;
+    gap:5px;
+}
+
+.btn-editar,
+.btn-excluir{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.btn-editar:hover,
+.btn-excluir:hover{
+    transform:scale(1.2);
 }
