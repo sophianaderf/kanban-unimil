@@ -25,15 +25,42 @@
     </header>
 
 
+    <section class="formulario">
+
+    <h2>Nova Tarefa</h2>
+
+    <input
+        type="text"
+        id="nome-tarefa"
+        placeholder="Nome da tarefa">
+
+    <select id="prioridade">
+
+        <option value="Alta">Alta</option>
+
+        <option value="Média">Média</option>
+
+        <option value="Baixa">Baixa</option>
+
+    </select>
+
+    <input
+        type="date"
+        id="data-entrega">
+
+    <button onclick="criarTarefa()">
+        Salvar Tarefa
+    </button>
+
+</section>
+
     <main class="kanban">
 
         <section class="pendentes">
 
             <h2>Pendente</h2>
 
-            <button class="nova-tarefa" onclick="criarTarefa()">
-                + Adicionar Tarefa
-            </button>
+            
 
             <div id="lista-pendentes"></div>
 
@@ -68,27 +95,29 @@ function salvarTarefas() {
 
 function criarTarefa() {
 
-    let texto = prompt("Digite o nome da tarefa:");
+    let texto =
+document.getElementById("nome-tarefa").value;
+
+let prioridade =
+document.getElementById("prioridade").value;
+
+let dataEntrega =
+document.getElementById("data-entrega").value;
+
 
 if (texto === null || texto.trim() === "") {
     return;
 }
 
-let prioridade = prompt(
-    "Digite a prioridade:\nAlta\nMédia\nBaixa"
-);
 
-if (prioridade === null || prioridade.trim() === "") {
-    prioridade = "Baixa";
+if (dataEntrega === null || dataEntrega.trim() === "") {
+    dataEntrega = "Não definida";
 }
 
-    if (texto === null || texto.trim() === "") {
-        return;
-    }
-
-   tarefas.push({
+  tarefas.push({
     nome: texto,
     prioridade: prioridade,
+    dataEntrega: dataEntrega,
     status: "pendente"
 });
     salvarTarefas();
@@ -147,12 +176,25 @@ else{
         card.draggable = true;
         card.dataset.indice = indice;
 
-       card.innerHTML = `
+card.innerHTML = `
     <div>
-    <strong>${tarefa.nome}</strong>
-    <br>
-    <small>${tarefa.prioridade}</small>
-</div>
+
+        <strong>${tarefa.nome}</strong>
+
+        <br>
+
+        <small>
+            Prioridade: ${tarefa.prioridade}
+        </small>
+
+        <br>
+
+        <small>
+            Entrega: ${tarefa.dataEntrega}
+        </small>
+
+    </div>
+
     <div class="acoes-card">
 
         <button
