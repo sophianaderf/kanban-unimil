@@ -60,8 +60,6 @@
 
             <h2>Pendente</h2>
 
-            
-
             <div id="lista-pendentes"></div>
 
         </section>
@@ -176,6 +174,23 @@ else{
         card.draggable = true;
         card.dataset.indice = indice;
 
+let avisoAtraso = "";
+
+const hoje = new Date();
+
+const prazo = new Date(tarefa.dataEntrega);
+
+if (
+    prazo < hoje &&
+    tarefa.status !== "concluido"
+) {
+    avisoAtraso = `
+        <div class="atrasada">
+             TAREFA ATRASADA
+        </div>
+    `;
+}
+
 card.innerHTML = `
     <div>
 
@@ -192,6 +207,8 @@ card.innerHTML = `
         <small>
             Entrega: ${tarefa.dataEntrega}
         </small>
+
+        ${avisoAtraso}
 
     </div>
 
