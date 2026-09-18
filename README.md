@@ -12,6 +12,8 @@ Desenvolvido por: *Sophia Nader Forti*
 
   O sistema permite o cadastro e gerenciamento de tarefas, que podem ter o status variado entre "Pendente", "Em andamento", e "Concluído".
 
+  O objetivo final é o desenvolvimento de um Kanban para cada setor da linha de produção, integrando todos eles ao módulo principal, que gerencia os outros.
+
 
 ## Requisitos Funcionais
 
